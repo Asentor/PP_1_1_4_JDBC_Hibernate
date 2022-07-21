@@ -15,10 +15,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-    @Override
-    public void setConnection() {
 
-    }
 
     @Override
     public void dropUsersTable() {
