@@ -5,12 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    Connection connection;
-    public Util() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydbtest?" +
-                "user=root&password=1234");
-    }
-    public Connection getConnection() {
+    private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "1234";
+
+    public static Connection getConnection() {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+        } catch (SQLException e) {
+
+        }
+
         return connection;
     }
 }
+
