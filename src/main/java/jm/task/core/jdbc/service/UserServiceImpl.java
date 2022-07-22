@@ -16,6 +16,10 @@ public class UserServiceImpl implements UserService {
     public void createUsersTable() {
         dao.createUsersTable();
     }
+    public void closeConnection() {
+        dao.closeConnection();
+
+    }
     public UserServiceImpl(){
     }
 

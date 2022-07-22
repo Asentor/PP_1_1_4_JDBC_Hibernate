@@ -4,22 +4,27 @@ import com.mysql.cj.jdbc.CallableStatementWrapper;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection = Util.getConnection();
 
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public UserDaoJDBCImpl() {
 
     }
 
     public void createUsersTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS test.users" +
+        String sql = "CREATE TABLE IF NOT EXISTS users" +
                 "(id bigint not null auto_increment, " +
                 "name VARCHAR(50), " +
                 "lastname VARCHAR(50), " +
@@ -34,7 +39,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        String sql = "Drop table if exists test.users";
+        String sql = "Drop table if exists users";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate(sql);
 
@@ -57,7 +62,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sql = "DELETE FROM test.users WHERE id = " + id + " LIMIT 1 ";
+        String sql = "DELETE FROM users WHERE id = " + id + " LIMIT 1 ";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate(sql);
 
@@ -68,10 +73,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> lists = new ArrayList<>();
-        String sql = "SELECT * from users";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        String sql = "SELECT * from users;";
+        try (Statement ps = connection.createStatement()) {
             ResultSet resultSet = ps.executeQuery(sql);
-
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -82,12 +86,13 @@ public class UserDaoJDBCImpl implements UserDao {
             }
 
         } catch (Exception e) {
+            System.out.println(e);
         }
         return lists;
     }
 
     public void cleanUsersTable() {
-        String sql = "DELETE FROM test.users";
+        String sql = "TRUNCATE TABLE Users;";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.executeUpdate(sql);
         } catch (SQLException e) {

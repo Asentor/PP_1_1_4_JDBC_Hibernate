@@ -16,10 +16,10 @@ public class Main {
         System.out.println("User с именем - Гоша добавлен в базу данных");
 
         usi.saveUser("Акакий", "Игранов", (byte)20);
-        System.out.println("User с именем - Тимошка добавлен в базу данных");
+        System.out.println("User с именем - Акакий добавлен в базу данных");
 
         usi.saveUser("Инакентий", "Петров", (byte)21);
-        System.out.println("User с именем - Тимошка добавлен в базу данных");
+        System.out.println("User с именем - Инакентий добавлен в базу данных");
 
         List<User> text = usi.getAllUsers();
         for (User al: text) {
@@ -27,5 +27,6 @@ public class Main {
         }
         usi.cleanUsersTable();
         usi.dropUsersTable();
+        usi.closeConnection();
     }
 }

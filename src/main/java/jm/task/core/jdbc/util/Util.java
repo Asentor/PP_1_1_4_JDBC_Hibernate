@@ -8,9 +8,10 @@ public class Util {
     private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "1234";
+    static Connection connection = null;
 
     public static Connection getConnection() {
-        Connection connection = null;
+
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
@@ -19,6 +20,14 @@ public class Util {
         }
 
         return connection;
+    }
+    public static void closeConnection() {
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
