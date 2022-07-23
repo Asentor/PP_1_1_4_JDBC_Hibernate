@@ -15,7 +15,7 @@ public class Main {
         usi.saveUser("Гоша", "Ивин", (byte)19);
         System.out.println("User с именем - Гоша добавлен в базу данных");
 
-        usi.saveUser("Акакий", "Игранов", (byte)20);
+        usi.saveUser("Антон", "Игранов", (byte)20);
         System.out.println("User с именем - Акакий добавлен в базу данных");
 
         usi.saveUser("Инакентий", "Петров", (byte)21);
