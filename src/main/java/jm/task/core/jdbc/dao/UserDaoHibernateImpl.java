@@ -4,9 +4,12 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,8 @@ public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
 
     }
+
+    private final SessionFactory sessionFactory = Util.getSessionFactory();
 
 
     @Override
@@ -26,7 +31,6 @@ public class UserDaoHibernateImpl implements UserDao {
                     "lastname VARCHAR(255)," +
                     "age TINYINT ); ").executeUpdate();
             transaction.commit();
-            session.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -44,7 +48,6 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.createSQLQuery("DROP TABLE IF EXISTS User ").executeUpdate();
             transaction.commit();
-            session.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -71,7 +74,6 @@ public class UserDaoHibernateImpl implements UserDao {
             usr.setId(id);
             session.remove(usr);
             transaction.commit();
-            session.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -86,7 +88,6 @@ public class UserDaoHibernateImpl implements UserDao {
 
             result = session.createQuery("FROM User ").getResultList();
             transaction.commit();
-            session.close();
             return result;
         } catch (Exception e) {
             System.out.println(e);
@@ -101,9 +102,16 @@ public class UserDaoHibernateImpl implements UserDao {
             transaction = session.beginTransaction();
             session.createQuery("DELETE FROM User ").executeUpdate();
             transaction.commit();
-            session.close();
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    public void closeSessionFactory() {
+        try {
+            sessionFactory.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

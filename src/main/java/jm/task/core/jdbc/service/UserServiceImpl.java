@@ -1,5 +1,6 @@
 package jm.task.core.jdbc.service;
 
+import com.mysql.cj.jdbc.ConnectionImpl;
 import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
@@ -11,16 +12,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+    public ConnectionImpl transaction;
     private UserDao dao = new UserDaoHibernateImpl();
 
 
     public void createUsersTable() {
         dao.createUsersTable();
     }
-    public void closeConnection() {
-        dao.closeConnection();
+    public void closeSessionFactory() {
+        dao.closeSessionFactory();
 
     }
+
     public UserServiceImpl(){
     }
 
@@ -43,4 +46,5 @@ public class UserServiceImpl implements UserService {
     public void cleanUsersTable() {
         dao.cleanUsersTable();
     }
+
 }

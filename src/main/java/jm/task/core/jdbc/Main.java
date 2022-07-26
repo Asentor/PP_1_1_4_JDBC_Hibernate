@@ -27,6 +27,6 @@ public class Main {
         }
         usi.cleanUsersTable();
         usi.dropUsersTable();
-        usi.closeConnection();
+        usi.closeSessionFactory();
     }
 }

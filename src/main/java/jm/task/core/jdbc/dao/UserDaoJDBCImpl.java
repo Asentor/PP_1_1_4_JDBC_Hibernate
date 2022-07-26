@@ -3,6 +3,7 @@ package jm.task.core.jdbc.dao;
 import com.mysql.cj.jdbc.CallableStatementWrapper;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.SessionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -98,5 +99,10 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
 
         }
+    }
+
+    @Override
+    public void closeSessionFactory() {
+
     }
 }
